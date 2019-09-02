@@ -1,4 +1,4 @@
-#Sun Sep 01 14:45:33 IDT 2019
+#Sun Sep 01 16:48:17 IDT 2019
 base.0=/Users/ariell/Projects/flutter_course/module_2/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
