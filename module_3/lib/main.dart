@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:module_3/screens/meal_detail_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 
@@ -28,7 +29,22 @@ class MyApp extends StatelessWidget {
               ))),
       routes: {
         '/': (ctx) => CategoriesScreen(),
-        CategoryMealsSceen.routeName: (ctx) => CategoryMealsSceen(),  
+        CategoryMealsSceen.routeName: (ctx) => CategoryMealsSceen(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+      },
+      // onGenerateRoute: (settings) {
+      //   if(settings.name == '/meal-detail'){
+      //     return ...;
+      //   } else if(settings.name == '/somthin-else'){
+      //     return ...;
+      //   }
+      //   return MaterialPageRoute(builder: (ctx) => CategoriesScreen(),)
+      // },
+      // when didn't find the page (fallback)
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => CategoriesScreen(),
+        );
       },
     );
   }
