@@ -88,12 +88,17 @@ class _NewTransactionState extends State<NewTransaction> {
                   ],
                 ),
               ),
-              FlatButton(
-                child: Text('Add transaction'),
-                onPressed: () => _submitData(),
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
-              )
+              Platform.isIOS
+                  ? CupertinoButton(
+                      child: Text('Add transaction'),
+                      onPressed: () => _submitData(),
+                    )
+                  : RaisedButton(
+                      child: Text('Add transaction'),
+                      onPressed: () => _submitData(),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).textTheme.button.color,
+                    )
             ],
           ),
         ),
