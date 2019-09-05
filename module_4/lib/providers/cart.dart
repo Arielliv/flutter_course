@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import '../models/CartItem.dart';
+import '../models/cartItem.dart';
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
@@ -20,14 +20,24 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  void removeItem(String productId) {
+    _items.remove(productId);
+    notifyListeners();
+  }
+
+  void clear() {
+    _items = {};
+    notifyListeners();
+  }
+
   void addItem(
-    String id,
+    String productId,
     double price,
     String title,
   ) {
-    if (_items.containsKey(id)) {
+    if (_items.containsKey(productId)) {
       _items.update(
-        id,
+        productId,
         (existingCartItem) => CartItem(
           id: existingCartItem.id,
           title: existingCartItem.title,
@@ -37,7 +47,7 @@ class Cart with ChangeNotifier {
       );
     } else {
       _items.putIfAbsent(
-        id,
+        productId,
         () => CartItem(
           id: DateTime.now().toString(),
           title: title,
