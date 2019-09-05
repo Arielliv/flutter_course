@@ -38,7 +38,12 @@ class Products with ChangeNotifier {
     ),
   ];
 
+  var _showFavoritesOnly = false;
+
   List<Product> get items {
+    if (_showFavoritesOnly) {
+      return _items.where((productItem) => productItem.isFavorite).toList();
+    }
     return [..._items];
   }
 
@@ -46,6 +51,15 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
+  void showFavoritesOnly() {
+    _showFavoritesOnly = true;
+    notifyListeners();
+  }
+
+  void showAll() {
+    _showFavoritesOnly = false;
+    notifyListeners();
+  }
   // void addProduct(Product product) {
   //   _items.add(product);
   //   notifyListeners();
