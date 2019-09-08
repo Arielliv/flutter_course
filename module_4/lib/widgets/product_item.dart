@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
@@ -47,6 +48,21 @@ class ProductItem extends StatelessWidget {
             color: Theme.of(context).accentColor,
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
+              prefix0.Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Added Item to cart!',
+                  ),
+                  action: SnackBarAction(
+                    label: 'UNNDO',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                  duration: Duration(seconds: 2),
+                ),
+              );
             },
           ),
         ),
