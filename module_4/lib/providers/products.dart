@@ -43,6 +43,10 @@ class Products with ChangeNotifier {
 
   // var _showFavoritesOnly = false;
 
+  final String authToken;
+
+  Products(this.authToken, this._items);
+
   List<Product> get items {
     // if (_showFavoritesOnly) {
     //   return _items.where((productItem) => productItem.isFavorite).toList();
@@ -69,7 +73,8 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProducts() async {
-    const url = 'https://flutter-course-9a6bf.firebaseio.com/products.json';
+    final url =
+        'https://flutter-course-9a6bf.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -84,7 +89,8 @@ class Products with ChangeNotifier {
               description: productData['description'],
               price: productData['price'],
               isFavorite: productData['isFavorite'],
-              imageUrl: productData['imageUrl']));
+              imageUrl: productData['imageUrl'],
+              authToken: authToken));
         });
         _items = loadedProducts;
         notifyListeners();
@@ -95,7 +101,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = 'https://flutter-course-9a6bf.firebaseio.com/products.json';
+    final url =
+        'https://flutter-course-9a6bf.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -112,6 +119,7 @@ class Products with ChangeNotifier {
         price: product.price,
         imageUrl: product.imageUrl,
         id: json.decode(response.body)['name'],
+        authToken: authToken,
       );
 
       _items.add(newProduct);
@@ -126,7 +134,7 @@ class Products with ChangeNotifier {
     final productIndex = _items.indexWhere((product) => product.id == id);
     if (productIndex >= 0) {
       final url =
-          'https://flutter-course-9a6bf.firebaseio.com/products/$id.json';
+          'https://flutter-course-9a6bf.firebaseio.com/products/$id.json?auth=$authToken';
       try {
         await http.patch(url,
             body: json.encode({
@@ -146,7 +154,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = 'https://flutter-course-9a6bf.firebaseio.com/products/$id.json';
+    final url =
+        'https://flutter-course-9a6bf.firebaseio.com/products/$id.json?auth=$authToken';
     final existingProductIndex =
         _items.indexWhere((product) => product.id == id);
     var existingProduct = _items[existingProductIndex];
