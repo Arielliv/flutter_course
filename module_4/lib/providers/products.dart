@@ -44,8 +44,9 @@ class Products with ChangeNotifier {
   // var _showFavoritesOnly = false;
 
   final String authToken;
+  final String userId;
 
-  Products(this.authToken, this._items);
+  Products(this.authToken, this.userId, this._items);
 
   List<Product> get items {
     // if (_showFavoritesOnly) {
@@ -73,24 +74,30 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProducts() async {
-    final url =
+    var url =
         'https://flutter-course-9a6bf.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Product> loadedProducts = [];
+
       if (extractedData == null) {
         return;
       } else {
+        final url =
+            'https://flutter-course-9a6bf.firebaseio.com/userFavorites/$userId.json?auth=$authToken';
+        final favoriteResponse = await http.get(url);
+        final favoriteData = json.decode(favoriteResponse.body);
+        final List<Product> loadedProducts = [];
         extractedData.forEach((productId, productData) {
           loadedProducts.add(Product(
-              id: productId,
-              title: productData['title'],
-              description: productData['description'],
-              price: productData['price'],
-              isFavorite: productData['isFavorite'],
-              imageUrl: productData['imageUrl'],
-              authToken: authToken));
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            price: productData['price'],
+            isFavorite:
+                favoriteData == null ? false : favoriteData[productId] ?? false,
+            imageUrl: productData['imageUrl'],
+          ));
         });
         _items = loadedProducts;
         notifyListeners();
@@ -110,7 +117,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'price': product.price,
             'imageUrl': product.imageUrl,
-            'isFavorite': product.isFavorite,
+            'creatorId': userId,
           }));
 
       final newProduct = Product(
@@ -119,7 +126,6 @@ class Products with ChangeNotifier {
         price: product.price,
         imageUrl: product.imageUrl,
         id: json.decode(response.body)['name'],
-        authToken: authToken,
       );
 
       _items.add(newProduct);

@@ -10,7 +10,6 @@ class Product with ChangeNotifier {
   final double price;
   final String imageUrl;
   bool isFavorite;
-  final String authToken;
 
   Product({
     @required this.id,
@@ -19,7 +18,6 @@ class Product with ChangeNotifier {
     @required this.price,
     this.imageUrl,
     this.isFavorite = false,
-    this.authToken
   });
 
   void _setFavoriteValue(bool newValue) {
@@ -27,16 +25,17 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-    final url = 'https://flutter-course-9a6bf.firebaseio.com/products/$id.json?auth=$authToken';
+    final url =
+        'https://flutter-course-9a6bf.firebaseio.com/userFavorites/$userId/$id.json?auth=$token';
     try {
-      final response = await http.patch(url,
-          body: json.encode({
-            'isFavorite': isFavorite,
-          }));
+      final response = await http.put(url,
+          body: json.encode(
+            isFavorite,
+          ));
       if (response.statusCode >= 400) {
         _setFavoriteValue(oldStatus);
       }
