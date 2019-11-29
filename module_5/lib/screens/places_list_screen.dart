@@ -7,39 +7,52 @@ class PlacesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: (Text(
-            'Your places',
-          )),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddPlaceScreen.routeName);
-              },
-            ),
-          ],
-        ),
-        body: Consumer<UserPlaces>(
-          child: Center(
-            child: const Text('Got no places yet, start adding some!'),
+      appBar: AppBar(
+        title: (Text(
+          'Your places',
+        )),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AddPlaceScreen.routeName);
+            },
           ),
-          builder: (context, userPlaces, child) => userPlaces.items.length <= 0
-              ? child
-              : ListView.builder(
-                  itemCount: userPlaces.items.length,
-                  itemBuilder: (context, index) => ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: FileImage(
-                        userPlaces.items[index].image,
-                      ),
-                    ),
-                    title: Text(userPlaces.items[index].title),
-                    onTap: (){
-                      // go to detail page
-                    },
-                  ),
+        ],
+      ),
+      body: FutureBuilder(
+        future:
+            Provider.of<UserPlaces>(context, listen: false).fetchAndSetPlaces(),
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer<UserPlaces>(
+                child: Center(
+                  child: const Text('Got no places yet, start adding some!'),
                 ),
-        ));
+                builder: (context, userPlaces, child) =>
+                    userPlaces.items.length <= 0
+                        ? child
+                        : ListView.builder(
+                            itemCount: userPlaces.items.length,
+                            itemBuilder: (context, index) => ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: FileImage(
+                                  userPlaces.items[index].image,
+                                ),
+                              ),
+                              title: Text(userPlaces.items[index].title),
+                              subtitle: Text(
+                                  userPlaces.items[index].location.address),
+                              onTap: () {
+                                // go to detail page
+                              },
+                            ),
+                          ),
+              ),
+      ),
+    );
   }
 }
