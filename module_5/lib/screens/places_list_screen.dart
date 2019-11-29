@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:module_5/providers/user_places.dart';
 import 'package:module_5/screens/add_place_screen.dart';
+import 'package:module_5/screens/place_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
@@ -47,7 +48,9 @@ class PlacesListScreen extends StatelessWidget {
                               subtitle: Text(
                                   userPlaces.items[index].location.address),
                               onTap: () {
-                                // go to detail page
+                                Navigator.of(context).pushNamed(
+                                    PlaceDetailScreen.routeName,
+                                    arguments: userPlaces.items[index].id);
                               },
                             ),
                           ),
