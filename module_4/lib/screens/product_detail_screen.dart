@@ -50,6 +50,7 @@ class ProductDetailScreen extends StatelessWidget {
                     color: Colors.grey,
                     fontSize: 20,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   height: 10,
@@ -62,7 +63,10 @@ class ProductDetailScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     softWrap: true,
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 800,
+                ),
               ],
             ),
           ),
