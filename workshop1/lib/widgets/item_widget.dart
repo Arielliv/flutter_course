@@ -36,12 +36,12 @@ class ItemWidget extends StatelessWidget {
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: Consumer<Item>(
-            builder: (ctx, product, child) => IconButton(
+            builder: (ctx, item, child) => IconButton(
               icon: Icon(
-                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+                  item.isFavorite ? Icons.favorite : Icons.favorite_border),
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggleFavoriteStatus(
+                item.toggleFavoriteStatus(
                   authData.token,
                   authData.userId,
                 );
@@ -53,7 +53,7 @@ class ItemWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.done),
+            icon: Icon(item.isFinished ? Icons.done : Icons.done_outline),
             color: Theme.of(context).accentColor,
             onPressed: () {
               item.isFinished = !item.isFinished;
@@ -66,9 +66,7 @@ class ItemWidget extends StatelessWidget {
                   ),
                   action: SnackBarAction(
                     label: 'UNNDO',
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                   ),
                   duration: Duration(seconds: 2),
                 ),
