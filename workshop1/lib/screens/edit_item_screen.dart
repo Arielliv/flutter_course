@@ -111,7 +111,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('edit item'),
+        title: (_editedItem.id != null ?  Text('Edit Existing Item') : Text('Add New Item') ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),

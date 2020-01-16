@@ -51,6 +51,7 @@ class Items with ChangeNotifier {
     final filterUrl =
         filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url = '$baseUrl/items.json?auth=$authToken&$filterUrl';
+    print(authToken);
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

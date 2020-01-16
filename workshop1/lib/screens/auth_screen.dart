@@ -15,7 +15,7 @@ class AuthScreen extends StatelessWidget {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: Colors.teal.withOpacity(0.9),
+              color: Colors.blue.withOpacity(0.9),
             ),
           ),
           SingleChildScrollView(
@@ -46,7 +46,7 @@ class AuthScreen extends StatelessWidget {
                         'Workshop',
                         style: TextStyle(
                           color: Theme.of(context).accentTextTheme.title.color,
-                          fontSize: 48,
+                          fontSize: 42,
                           fontFamily: 'Anton',
                           fontWeight: FontWeight.normal,
                         ),

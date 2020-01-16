@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workshop1/widgets/app_drawer.dart';
 import 'package:workshop1/widgets/items_grid.dart';
+import 'package:workshop1/screens/edit_item_screen.dart';
 
 import '../providers/items.dart';
 
@@ -67,23 +68,6 @@ class _ProductsOverviewScreenState extends State<ItemsOverviewScreen> {
                   child: Text('Finished Tasks'), value: FilterOptions.Finished),
             ],
           ),
-          // Consumer<Cart>(
-          //   builder: (
-          //     ctx,
-          //     cartData,
-          //     child,
-          //   ) =>
-          //       Badge(
-          //     child: child,
-          //     value: cartData.itemCount.toString(),
-          //   ),
-          //   child: IconButton(
-          //     icon: Icon(Icons.shopping_cart),
-          //     onPressed: () {
-          //       Navigator.of(context).pushNamed(CartScreen.routeName);
-          //     },
-          //   ),
-          // )
         ],
       ),
       drawer: AppDrawer(),
@@ -92,6 +76,11 @@ class _ProductsOverviewScreenState extends State<ItemsOverviewScreen> {
               child: CircularProgressIndicator(),
             )
           : ItemsGrid(_showMode),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {Navigator.of(context).pushNamed(EditItemScreen.routeName);},
+        tooltip: 'Increment Counter',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
